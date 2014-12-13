@@ -1,0 +1,70 @@
+scriptId = 'dedril.myo.sonos'
+scriptTitle = 'Sonos Connector'
+
+
+function playPause()
+    myo.keyboard("p",  "press", "command")
+end
+
+function shuttleJumpForward()
+    -- Skip to the next track
+    if platform == "MacOS" then
+        myo.keyboard("right_arrow", "press", "command")
+    elseif platform == "Windows" then
+        -- not supported yet
+    end
+end
+
+function shuttleJumpBackward()
+    -- Skip to the previous track
+    if platform == "MacOS" then
+        myo.keyboard("left_arrow", "press", "command")
+    elseif platform == "Windows" then
+        -- not supported yet
+    end
+end
+
+function onForegroundWindowChange(app, title)
+
+    return platform == "MacOS" and app == "com.sonos.macController" or
+           platform == "Windows" and app == "sonos.exe"
+end
+
+function activeAppName()
+    return "Sonos"
+end
+
+
+function onPoseEdge(pose, edge)
+    local now = myo.getTimeMilliseconds()
+
+    if edge == "on"  then
+
+
+        -- Play/pause
+        if pose == "fingersSpread" then
+            playPause()
+
+        end
+
+        -- Shuttle controls
+        if pose == "waveIn" or pose == "waveOut" then
+
+            -- Swap Wave In/Out if Myo is on the left arm.
+            if myo.getArm() == "left" then
+                if pose == "waveIn" then
+                    pose = "waveOut"
+                else
+                    pose = "waveIn"
+                end
+            end
+
+            if pose == "waveIn" then
+                shuttleJumpBackward()
+            else
+                shuttleJumpForward()
+            end
+
+        end
+    end
+end
