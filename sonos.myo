@@ -17,7 +17,8 @@ end
 
 function increaseVolume()
     if platform == "MacOS" then
-        --todo mac.
+        --equal, and shift, is '+'
+        myo.keyboard("equal",  "press", "command","shift")
     elseif platform == "Windows" then
     	--equal, and shift, is '+'
         myo.keyboard("equal",  "press", "control","shift")
@@ -27,7 +28,7 @@ end
 
 function decreaseVolume()
     if platform == "MacOS" then
-        --todo mac.
+        myo.keyboard("minus",  "press", "command")
     elseif platform == "Windows" then
         myo.keyboard("minus",  "press", "control")
     end   
