@@ -1,7 +1,12 @@
+--general script details
 scriptId = 'dedril.myo.sonos'
 scriptTitle = 'Sonos Connector'
 
+--vars
+currentlyControllingVolume = false
+originalOrientation = 0 --allows us to know which was the user is rotating their arm
 
+--helper functions
 function playPause()
     if platform == "MacOS" then
         myo.keyboard("p",  "press", "command")
@@ -9,6 +14,25 @@ function playPause()
         myo.keyboard("p",  "press", "control")
     end    
 end
+
+function increaseVolume()
+    if platform == "MacOS" then
+        --todo mac.
+    elseif platform == "Windows" then
+    	--equal, and shift, is '+'
+        myo.keyboard("equal",  "press", "control","shift")
+    end   
+end
+
+
+function decreaseVolume()
+    if platform == "MacOS" then
+        --todo mac.
+    elseif platform == "Windows" then
+        myo.keyboard("minus",  "press", "control")
+    end   
+end
+
 
 function shuttleJumpForward()
     -- Skip to the next track
@@ -35,22 +59,56 @@ function onForegroundWindowChange(app, title)
 end
 
 function activeAppName()
-    return "Sonos"
+    return scriptTitle
 end
 
+--event handlers
+function onPeriodic()
 
+    if currentlyControllingVolume then
+      
+  	    --first work out which way the user is rotating.
+  	    local currentOrientation = math.deg(myo.getRoll())
+  	    myo.debug("current:" .. currentOrientation)
+  	    myo.debug("original:" .. originalOrientation)
+  	    
+  	    local diff = math.abs(currentOrientation - originalOrientation)
+  	    
+  	    --so we only do anything if the angle is big enough
+  	    if diff > 11 then
+  
+		    if currentOrientation > originalOrientation then
+			increaseVolume()
+			myo.debug("increasing")
+		    else
+			decreaseVolume()
+			myo.debug("decreasing")
+		    end 
+	    end
+  
+   end  
+    
+end
 function onPoseEdge(pose, edge)
     local now = myo.getTimeMilliseconds()
 
     if edge == "on"  then
 
-
         -- Play/pause
         if pose == "fingersSpread" then
             playPause()
-
         end
-
+        
+        -- Volume
+        if pose == "fist" then
+            currentlyControllingVolume = true
+            originalOrientation = math.deg(myo.getRoll())
+            
+            --now wait for the rotation commands
+            myo.unlock("hold") --todo trev, this is gonna be a problem..
+            myo.debug("fist on")
+        end
+        
         -- Shuttle controls
         if pose == "waveIn" or pose == "waveOut" then
 
@@ -70,5 +128,14 @@ function onPoseEdge(pose, edge)
             end
 
         end
+    else --exiting a pose	
+    
+        -- Volume
+        if pose == "fist" then
+            currentlyControllingVolume = false	
+            myo.debug("fist off")
+            myo.lock()
+        end
+
     end
 end
