@@ -1,6 +1,6 @@
 --general script details
 scriptId = 'dedril.myo.sonos'
-scriptTitle = 'Sonos Connector'
+scriptTitle = 'Sonos Controller'
 
 --vars
 currentlyControllingVolume = false
