@@ -3,7 +3,11 @@ scriptTitle = 'Sonos Connector'
 
 
 function playPause()
-    myo.keyboard("p",  "press", "command")
+    if platform == "MacOS" then
+        myo.keyboard("p",  "press", "command")
+    elseif platform == "Windows" then
+        myo.keyboard("p",  "press", "control")
+    end    
 end
 
 function shuttleJumpForward()
@@ -11,7 +15,7 @@ function shuttleJumpForward()
     if platform == "MacOS" then
         myo.keyboard("right_arrow", "press", "command")
     elseif platform == "Windows" then
-        -- not supported yet
+        myo.keyboard("right_arrow", "press", "control")
     end
 end
 
@@ -20,14 +24,14 @@ function shuttleJumpBackward()
     if platform == "MacOS" then
         myo.keyboard("left_arrow", "press", "command")
     elseif platform == "Windows" then
-        -- not supported yet
+        myo.keyboard("left_arrow", "press", "control")
     end
 end
 
 function onForegroundWindowChange(app, title)
-
+    
     return platform == "MacOS" and app == "com.sonos.macController" or
-           platform == "Windows" and app == "sonos.exe"
+           platform == "Windows" and app == "Sonos.exe"
 end
 
 function activeAppName()
