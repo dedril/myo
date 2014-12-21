@@ -69,9 +69,7 @@ function onPeriodic()
       
   	    --first work out which way the user is rotating.
   	    local currentOrientation = math.deg(myo.getRoll())
-  	    myo.debug("current:" .. currentOrientation)
-  	    myo.debug("original:" .. originalOrientation)
-  	    
+  	  
   	    local diff = math.abs(currentOrientation - originalOrientation)
   	    
   	    --so we only do anything if the angle is big enough
@@ -79,10 +77,8 @@ function onPeriodic()
   
 		    if currentOrientation > originalOrientation then
 			increaseVolume()
-			myo.debug("increasing")
 		    else
 			decreaseVolume()
-			myo.debug("decreasing")
 		    end 
 	    end
   
@@ -105,8 +101,8 @@ function onPoseEdge(pose, edge)
             originalOrientation = math.deg(myo.getRoll())
             
             --now wait for the rotation commands
-            myo.unlock("hold") --todo trev, this is gonna be a problem..
-            myo.debug("fist on")
+            myo.unlock("hold") 
+            
         end
         
         -- Shuttle controls
@@ -133,7 +129,7 @@ function onPoseEdge(pose, edge)
         -- Volume
         if pose == "fist" then
             currentlyControllingVolume = false	
-            myo.debug("fist off")
+            
             myo.lock()
         end
 
