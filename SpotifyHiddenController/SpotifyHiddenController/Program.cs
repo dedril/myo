@@ -40,6 +40,10 @@ namespace SpotifyHiddenController
         }
 
 
+        /// <summary>
+        /// thanks http://stackoverflow.com/questions/12204456/logging-information-to-a-windowed-textbox
+        /// </summary>
+        /// <param name="text"></param>
         public static void SetText(string text)
         {
             // InvokeRequired required compares the thread ID of the 
