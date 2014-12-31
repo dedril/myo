@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
+using SpotifyHiddenController;
 
 
 namespace ConsoleHotKey
