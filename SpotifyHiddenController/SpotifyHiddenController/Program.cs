@@ -27,7 +27,7 @@ namespace SpotifyHiddenController
     /// </summary>
     public class Runner
     {
-        private static Debugger debugger;
+        private static DebuggerForm debuggerForm;
         delegate void SetTextCallback(string s);
 
         static void Main()
@@ -35,8 +35,8 @@ namespace SpotifyHiddenController
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            debugger = new SpotifyHiddenController.Debugger();
-            Application.Run(debugger);
+            debuggerForm = new SpotifyHiddenController.DebuggerForm();
+            Application.Run(debuggerForm);
         }
 
 
@@ -49,25 +49,16 @@ namespace SpotifyHiddenController
             // InvokeRequired required compares the thread ID of the 
             // calling thread to the thread ID of the creating thread. 
             // If these threads are different, it returns true. 
-            if (debugger.TxtLog.InvokeRequired)
+            if (debuggerForm.TxtLog.InvokeRequired)
             {
                 SetTextCallback d = new SetTextCallback(SetText);
-                debugger.TxtLog.Invoke(d, new object[] { text });
+                debuggerForm.TxtLog.Invoke(d, new object[] { text });
             }
             else
             {
-                debugger.TxtLog.AppendText(text);
+                debuggerForm.TxtLog.AppendText(text);
             }
         }
-      
-
-     
-
-        //need both VK control (for the key) and MOD control (the modifier)
-        //for the ctrl hot key to work.
-        private static uint VK_CONTROL = 0x11;
-        private static uint MOD_CONTROL = 0x0002;
-
 
     }
 }

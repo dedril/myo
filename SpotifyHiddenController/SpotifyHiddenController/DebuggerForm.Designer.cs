@@ -1,6 +1,6 @@
 ﻿namespace SpotifyHiddenController
 {
-    partial class Debugger
+    partial class DebuggerForm
     {
         /// <summary>
         /// Required designer variable.
@@ -45,6 +45,7 @@
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
+            this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtLog.Size = new System.Drawing.Size(711, 228);
             this.txtLog.TabIndex = 0;
             // 
@@ -70,7 +71,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 70);
+            this.label3.Location = new System.Drawing.Point(10, 85);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(126, 13);
             this.label3.TabIndex = 3;
@@ -79,11 +80,12 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(10, 83);
+            this.label4.Location = new System.Drawing.Point(10, 72);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(231, 13);
+            this.label4.Size = new System.Drawing.Size(401, 13);
             this.label4.TabIndex = 4;
-            this.label4.Text = "then hold CTRL while performing a Myo gesture";
+            this.label4.Text = "Hold CTRL to enable connection to Myo (and save you from false positive gestures)" +
+    "";
             // 
             // label5
             // 
@@ -122,7 +124,7 @@
             this.label8.TabIndex = 8;
             this.label8.Text = "Debugging Log";
             // 
-            // Debugger
+            // DebuggerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -136,7 +138,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtLog);
-            this.Name = "Debugger";
+            this.Name = "DebuggerForm";
             this.Text = "Spotify Hidden Controller";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Debugger_FormClosed);
             this.Load += new System.EventHandler(this.Debugger_Load);

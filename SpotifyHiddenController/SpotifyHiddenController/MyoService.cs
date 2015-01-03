@@ -9,9 +9,6 @@ using MyoSharp.Poses;
 
 namespace SpotifyHiddenController
 {
-    /// <summary>
-    /// You need to start this service in a separate thread, because it 
-    /// </summary>
     public class MyoService:IDisposable
     {
 
@@ -25,7 +22,20 @@ namespace SpotifyHiddenController
         {
             this.spotify = spotify;
             this.keyboard = keyboard;
+            keyboard.CtrlPressed += Keyboard_CtrlPressed;
+            keyboard.CtrlReleased += Keyboard_CtrlReleased;
+        }
 
+        private void Keyboard_CtrlReleased(object keyboardService, EventArgs eventArgs)
+        {
+            hub.Dispose();
+            channel.Dispose();
+
+            Runner.SetText("stopped listening");
+        }
+
+        private void Keyboard_CtrlPressed(object keyboardService, EventArgs x)
+        {
             // create a hub to manage Myos
             channel = Channel.Create(ChannelDriver.Create(ChannelBridge.Create()));
             hub = Hub.Create(channel);
@@ -33,54 +43,50 @@ namespace SpotifyHiddenController
             // listen for when a Myo connects
             hub.MyoConnected += (sender, e) =>
             {
-                Console.WriteLine("Myo {0} has connected!", e.Myo.Handle);
+                Runner.SetText("Myo has connected!");
 
                 e.Myo.PoseChanged += Myo_PoseChanged;
                 e.Myo.Locked += Myo_Locked;
                 e.Myo.Unlocked += Myo_Unlocked;
             };
 
-            // start listening for Myo data
             channel.StartListening();
+            Runner.SetText("listening to myo");
         }
 
 
 
         private void Myo_PoseChanged(object sender, PoseEventArgs e)
         {
-            if (keyboard != null && 
-                keyboard.CtrlKeyHeld)
+            Runner.SetText(string.Format("{0} arm Myo detected {1} pose!", e.Myo.Arm, e.Myo.Pose) + Environment.NewLine);
+
+            switch (e.Myo.Pose)
             {
-                Runner.SetText(string.Format("{0} arm Myo detected {1} pose!", e.Myo.Arm, e.Myo.Pose) + Environment.NewLine);
+                case Pose.FingersSpread:
+                    spotify.Pause();
+                    break;
 
-                switch (e.Myo.Pose)
-                {
-                    case Pose.FingersSpread:
-                        spotify.Pause();
-                        break;
+                case Pose.WaveOut:
+                    if (e.Myo.Arm == Arm.Right)
+                    {
+                        spotify.NextTrack();
+                    }
+                    else
+                    {
+                        spotify.PreviousTrack();
+                    }
+                    break;
 
-                    case Pose.WaveOut:
-                        if (e.Myo.Arm == Arm.Right)
-                        {
-                            spotify.NextTrack();
-                        }
-                        else
-                        {
-                            spotify.PreviousTrack();
-                        }
-                        break;
-
-                    case Pose.WaveIn:
-                        if (e.Myo.Arm == Arm.Right)
-                        {
-                            spotify.PreviousTrack();
-                        }
-                        else
-                        {
-                            spotify.NextTrack();
-                        }
-                        break;
-                }
+                case Pose.WaveIn:
+                    if (e.Myo.Arm == Arm.Right)
+                    {
+                        spotify.PreviousTrack();
+                    }
+                    else
+                    {
+                        spotify.NextTrack();
+                    }
+                    break;
             }
         }
 

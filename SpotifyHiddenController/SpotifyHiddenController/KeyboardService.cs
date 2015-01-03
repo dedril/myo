@@ -19,6 +19,10 @@ namespace SpotifyHiddenController
         //helps us measure if we are still holding the key
         private DateTime CtrlKeyLastPress = DateTime.MinValue;
 
+        public event CtrlHandler CtrlPressed;
+        public event CtrlHandler CtrlReleased;
+        public delegate void CtrlHandler(object keyboardService, EventArgs e);
+
         /// <summary>
         /// The Ctrl key.
         /// </summary>
@@ -43,6 +47,11 @@ namespace SpotifyHiddenController
             {
                 Runner.SetText("hot key pressed" + Environment.NewLine);
                 CtrlKeyHeld = true;
+
+                if (CtrlPressed != null)
+                {
+                    CtrlPressed(this,null);
+                }
             }
 
             //we need to update this each milisecond the ctrl key is held down, otherwise it will timeout quickly even if the user is holding it down
@@ -61,6 +70,11 @@ namespace SpotifyHiddenController
                 //then we are no longer holding the key
                 CtrlKeyHeld = false;
                 Runner.SetText("No longer holding down hot key" + Environment.NewLine);
+
+                if (CtrlReleased != null)
+                {
+                    CtrlReleased(this, null);
+                }
             }
         }
     }

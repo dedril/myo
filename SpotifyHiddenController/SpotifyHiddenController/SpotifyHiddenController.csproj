@@ -51,11 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Debugger.cs">
+    <Compile Include="DebuggerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Debugger.Designer.cs">
-      <DependentUpon>Debugger.cs</DependentUpon>
+    <Compile Include="DebuggerForm.Designer.cs">
+      <DependentUpon>DebuggerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="HotKeyManager.cs" />
     <Compile Include="KeyboardHook.cs" />
@@ -80,8 +80,8 @@
     <Folder Include="bin\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Debugger.resx">
-      <DependentUpon>Debugger.cs</DependentUpon>
+    <EmbeddedResource Include="DebuggerForm.resx">
+      <DependentUpon>DebuggerForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

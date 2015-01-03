@@ -10,13 +10,13 @@ using System.Windows.Forms;
 
 namespace SpotifyHiddenController
 {
-    public partial class Debugger : Form
+    public partial class DebuggerForm : Form
     {
         private KeyboardService keyboard;
         private SpotifysService spotify;
         private MyoService myo;
 
-        public Debugger()
+        public DebuggerForm()
         {
             InitializeComponent();
 
