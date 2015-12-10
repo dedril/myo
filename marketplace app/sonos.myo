@@ -1,10 +1,11 @@
 --general script details
 scriptId = 'dedril.myo.sonos'
-scriptTitle = 'Sonos Controller'
+scriptTitle = 'Sonos Test Test'
 ScriptDetailsUrl = 'https://market.myo.com/app/54975183e4b03603dc2c6947'
 
 --vars
-currentlyControllingVolume = false
+currentlyControllingVolume = true
+something else = maybe
 originalOrientation = 0 --allows us to know which was the user is rotating their arm
 
 --helper functions
@@ -103,7 +104,7 @@ function onPoseEdge(pose, edge)
             originalOrientation = math.deg(myo.getRoll())
             
             --now wait for the rotation commands
-            myo.unlock("hold") 
+            myo.unlock("hold")  --forever true
             
         end
         
@@ -133,7 +134,8 @@ function onPoseEdge(pose, edge)
             currentlyControllingVolume = false	
             
             myo.lock()
-        end
+            myo.test()
+        end 
 
     end
 end
